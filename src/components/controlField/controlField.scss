@@ -1,0 +1,19 @@
+@import "../../assets/SASS/variable.scss";
+
+.container_filter {
+  display: flex;
+  align-items: center;
+  margin: 40px 0;
+  .filter_title {
+    display: block;
+    margin-left: auto;
+  }
+  .filter_option {
+    margin-left: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid $primary-color;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+}

@@ -1,0 +1,26 @@
+@import "./assets/SASS/variable.scss";
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 90px;
+  background: linear-gradient(
+    90deg,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
+}
+
+.container {
+  border-radius: 4px;
+  width: 800px;
+  min-height: 500px;
+  background-color: $background-color;
+  padding: 20px;
+
+  h1 {
+    text-align: center;
+    color: $primary-color;
+  }
+}

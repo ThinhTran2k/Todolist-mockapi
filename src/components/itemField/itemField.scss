@@ -1,0 +1,43 @@
+@import "../../assets/SASS/variable.scss";
+li {
+  background-color: $white;
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
+.wrapper_item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+
+  .item_checkbox {
+    margin-right: 15px;
+    cursor: pointer;
+  }
+  .wrapper_text {
+    margin-right: auto;
+    p {
+      margin: 0;
+    }
+  }
+  .wrapper_icons {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    .icon_delete {
+      cursor: pointer;
+      color: $red;
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+    .icon_edit {
+      color: $yellow;
+      cursor: pointer;
+      margin-right: 8px;
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+  }
+}
