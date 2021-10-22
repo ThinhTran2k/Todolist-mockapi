@@ -6,6 +6,11 @@ const todoApi = {
     return axiosClient.get(url);
   },
 
+  getTaskByID(id: number) {
+    const url = `/tasks/${id}`;
+    return axiosClient.get(url);
+  },
+
   deleteTask(id: number) {
     const url = `/tasks/${id}`;
     return axiosClient.delete(url);
@@ -21,3 +26,4 @@ const todoApi = {
     return axiosClient.put(url, data);
   },
 };
+export default todoApi;

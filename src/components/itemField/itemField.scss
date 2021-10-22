@@ -1,5 +1,7 @@
 @import "../../assets/SASS/variable.scss";
+
 li {
+  height: 70px;
   background-color: $white;
   &:hover {
     filter: brightness(0.9);
@@ -17,7 +19,31 @@ li {
   .wrapper_text {
     margin-right: auto;
     p {
+      font-size: 20px;
+      font-weight: bold;
       margin: 0;
+    }
+  }
+  .wrapper_deadline {
+    margin-right: 20px;
+    p {
+      margin: 0;
+    }
+    .warning_deadline {
+      float: right;
+      padding: 2px 5px;
+      border-radius: 20px;
+      background-color: $yellow;
+      font-size: 12px;
+      color: $white;
+    }
+    .error_deadline {
+      float: right;
+      padding: 2px 5px;
+      background-color: $red;
+      color: $white;
+      font-size: 12px;
+      border-radius: 20px;
     }
   }
   .wrapper_icons {

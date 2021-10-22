@@ -1,24 +1,23 @@
-import React from "react";
 import "./inputField.scss";
-import { toastSuccess, toastError } from "../../helper/toastHelper";
+import { useDispatch } from "react-redux";
+import { setToggle } from "../../redux/actions/index";
 
 export default function InputField() {
-  const [value, setValue] = React.useState<string>("");
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
   return (
     <div className="container-form">
-      <form onSubmit={handleSubmit}>
+      <form>
         <input
+          readOnly
           type="text"
           placeholder="Add new..."
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onClick={() => {
+            dispatch(setToggle());
+          }}
           className="input-text"
         />
-        <input type="submit" value="ADD" className="input-btn" />
+        <input type="button" value="ADD" className="input-btn" />
       </form>
     </div>
   );

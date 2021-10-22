@@ -2,9 +2,11 @@
 
 .container_item {
   width: 100%;
-  height: 100%;
+  height: 300px;
   border-radius: 4px;
   background-color: $white;
+  overflow: hidden;
+  overflow-y: scroll;
   ul {
     list-style: none;
     padding: 0;

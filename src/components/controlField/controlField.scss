@@ -3,8 +3,9 @@
 .container_filter {
   display: flex;
   align-items: center;
-  margin: 40px 0;
+  margin: 20px 0;
   .filter_title {
+    font-weight: bold;
     display: block;
     margin-left: auto;
   }

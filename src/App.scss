@@ -1,6 +1,7 @@
 @import "./assets/SASS/variable.scss";
 
 body {
+  font-family: "Quicksand", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,10 +16,9 @@ body {
 .container {
   border-radius: 4px;
   width: 800px;
-  min-height: 500px;
+  max-height: 1000px;
   background-color: $background-color;
   padding: 20px;
-
   h1 {
     text-align: center;
     color: $primary-color;
