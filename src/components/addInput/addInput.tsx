@@ -1,4 +1,4 @@
-import "./inputField.scss";
+import "./addInput.scss";
 import { useDispatch } from "react-redux";
 import { setToggle } from "../../redux/actions/index";
 
@@ -17,7 +17,6 @@ export default function InputField() {
           }}
           className="input-text"
         />
-        <input type="button" value="ADD" className="input-btn" />
       </form>
     </div>
   );

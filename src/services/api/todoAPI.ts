@@ -1,5 +1,15 @@
 import axiosClient from "../axiosClient";
 
+type IAddTodo = {
+  value: string;
+  deadlinetime: string;
+};
+type IUpdateTodo = {
+  value: string;
+  status: boolean;
+  deadlinetime: string;
+};
+
 const todoApi = {
   getListTask() {
     const url = "/tasks";
@@ -16,12 +26,12 @@ const todoApi = {
     return axiosClient.delete(url);
   },
 
-  addTask(data: any) {
+  addTask(data: IAddTodo) {
     const url = "/tasks";
     return axiosClient.post(url, data);
   },
 
-  updateTask(id: number, data: any) {
+  updateTask(id: number, data: IUpdateTodo) {
     const url = `/tasks/${id}`;
     return axiosClient.put(url, data);
   },

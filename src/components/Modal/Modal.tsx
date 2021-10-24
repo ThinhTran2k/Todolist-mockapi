@@ -1,5 +1,5 @@
 import React from "react";
-import "./ModalEdit.scss";
+import "./Modal.scss";
 import todoApi from "../../services/api/todoAPI";
 import { FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -7,12 +7,12 @@ import { addTask, setToggle, updateTasks } from "../../redux/actions";
 import { toastError, toastSuccess } from "../../helper/toastHelper";
 
 type Props = {
-  idEdit: number;
-  clearIDEdit: any;
+  id: number;
+  clearIDEdit: () => void;
 };
 
 function ModalEdit(props: Props) {
-  const { idEdit, clearIDEdit } = props;
+  const { id, clearIDEdit } = props;
   const dispatch = useDispatch();
   const [value, setValue] = React.useState({
     valueTodo: "",
@@ -21,14 +21,14 @@ function ModalEdit(props: Props) {
   });
 
   React.useEffect(() => {
-    if (idEdit !== 0 && idEdit !== undefined) {
+    if (id !== 0 && id) {
       getTaskByID();
     }
-  }, [idEdit]);
+  }, [id]);
 
   const getTaskByID = async () => {
     try {
-      const res: any = await todoApi.getTaskByID(idEdit);
+      const res: any = await todoApi.getTaskByID(id);
       setValue({
         ...value,
         valueTodo: res.data.value,
@@ -37,7 +37,7 @@ function ModalEdit(props: Props) {
       });
     } catch (error) {}
   };
-  const handleOnChange = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({
       ...value,
       statusTodo: e.target.checked,
@@ -45,12 +45,12 @@ function ModalEdit(props: Props) {
   };
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (value.valueTodo.length === 0 || !value) {
-        toastError("Enter your task !!!");
-      } else {
-        if (idEdit) {
-          const res: any = await todoApi.updateTask(idEdit, {
+    if (value.valueTodo.length === 0 || !value) {
+      toastError("Enter your todo !!!");
+    } else {
+      if (id) {
+        try {
+          const res: any = await todoApi.updateTask(id, {
             value: value.valueTodo,
             status: value.statusTodo,
             deadlinetime: value.deadlinetime,
@@ -65,7 +65,13 @@ function ModalEdit(props: Props) {
           );
           clearIDEdit();
           toastSuccess("Update success !!!");
-        } else {
+        } catch (error) {
+          clearIDEdit();
+          toastError("Update failed !!!");
+          dispatch(setToggle());
+        }
+      } else {
+        try {
           const res: any = await todoApi.addTask({
             value: value.valueTodo.trim(),
             deadlinetime: value.deadlinetime,
@@ -85,19 +91,21 @@ function ModalEdit(props: Props) {
           });
           clearIDEdit();
           toastSuccess("Add success !!!");
+        } catch (error) {
+          clearIDEdit();
+          toastError("Update failed !!!");
+          dispatch(setToggle());
         }
       }
-      dispatch(setToggle());
-    } catch (error) {
-      toastError(error);
     }
+    dispatch(setToggle());
   };
 
   return (
-    <div className="container">
+    <div className="container_modal">
       <div className="background" onClick={() => dispatch(setToggle())}></div>
-      <div className="container_modal">
-        <h1>{idEdit ? "Edit Todo" : "Add Todo"}</h1>
+      <div className="wrapper_modal">
+        <h1>{id ? "Edit Todo" : "Add Todo"}</h1>
         <div className="modal_closeICon">
           <FaTimesCircle
             className="closeIcon"
@@ -121,16 +129,16 @@ function ModalEdit(props: Props) {
             }
           />
           <div className="wrapper_status">
-            <span>Status</span>
+            <span>Todo status</span>
             <input
               type="checkbox"
               className="checkbox_edit"
-              onChange={(e: any) => handleOnChange(e)}
+              onChange={(e) => handleOnChange(e)}
               checked={value.statusTodo}
             />
           </div>
           <div className="wrapper_deadline">
-            <span>Deadline</span>
+            <span>Todo deadline</span>
             <input
               type="datetime-local"
               className="input-datetime"

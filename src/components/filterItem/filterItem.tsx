@@ -1,7 +1,8 @@
 import React from "react";
+import "./filterItem.scss";
 import { useDispatch } from "react-redux";
 import { filterTasks } from "../../redux/actions";
-import "./controlField.scss";
+import { typeFilter } from "../../constants";
 
 function ControlField() {
   const dispatch = useDispatch();
@@ -20,9 +21,9 @@ function ControlField() {
           setValue(e.target.value);
         }}
       >
-        <option value="All">All</option>
-        <option value="Active">Active</option>
-        <option value="Completed">Completed</option>
+        {typeFilter.map((item: string) => {
+          return <option value={item}>{item}</option>;
+        })}
       </select>
     </div>
   );

@@ -7,7 +7,7 @@ import axios from "axios";
 */
 const axiosClient = axios.create({
   // baseURL: process.env.REACT_APP_API_URL,
-  baseURL: "https://6113a162cba40600170c1b5c.mockapi.io/todolistAPI",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "content-type": "application/json",
   },

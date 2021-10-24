@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.scss";
-import InputField from "./components/inputField/inputField";
-import ListField from "./components/listField/listField";
-import ControlField from "./components/controlField/controlField";
-import { ToastContainer } from "react-toastify";
-import { getTasks } from "./redux/actions/index";
-import todoAPI from "./services/api/todoAPI";
-import { useDispatch } from "react-redux";
-import { toastError } from "./helper/toastHelper";
 import "react-toastify/dist/ReactToastify.css";
+import todoAPI from "./services/api/todoAPI";
+import AddInput from "./components/addInput/addInput";
+import FilterItem from "./components/filterItem/filterItem";
+import TodoList from "./components/todoList/todoList";
+import { toastError } from "./helper/toastHelper";
+import { getTasks } from "./redux/actions/index";
+import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,9 +27,9 @@ function App() {
   return (
     <div className="container">
       <h1>My Todo</h1>
-      <InputField />
-      <ControlField />
-      <ListField />
+      <AddInput />
+      <FilterItem />
+      <TodoList />
 
       <ToastContainer
         position="top-right"

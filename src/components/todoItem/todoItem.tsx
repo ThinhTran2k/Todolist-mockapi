@@ -1,5 +1,5 @@
 import React from "react";
-import "./itemField.scss";
+import "./todoItem.scss";
 import todoApi from "../../services/api/todoAPI";
 import moment from "moment";
 import { FaTrashAlt, FaPen } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { onDeadline, onExprise } from "../../helper/timeHelper";
 
 type Props = {
   task: Itask;
-  getID: any;
+  getID: Function;
 };
 
 function ItemField(props: Props) {
@@ -27,11 +27,11 @@ function ItemField(props: Props) {
       if (answer) {
         await todoApi.deleteTask(props.task.id);
         dispatch(deleteTask(props.task.id));
-        toastSuccess("Delete successfully !");
+        toastSuccess("Delete successfully !!!");
         return;
       }
     } catch (error) {
-      toastError("Xóa thất bạn !");
+      toastError("Delete failed !!!");
     }
   };
 
@@ -40,7 +40,7 @@ function ItemField(props: Props) {
     props.getID(props.task.id);
   };
 
-  const handleOnchange = (e: any) => {
+  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     editStatus();
     setValue(e.target.checked);
     dispatch(
@@ -56,9 +56,13 @@ function ItemField(props: Props) {
   const editStatus = async () => {
     try {
       await todoApi.updateTask(props.task.id, {
+        value: props.task.value,
         status: !value,
+        deadlinetime: props.task.deadlinetime,
       });
-    } catch (error) {}
+    } catch (error) {
+      toastError("Update todo status failed !!!");
+    }
   };
 
   return (
@@ -67,8 +71,8 @@ function ItemField(props: Props) {
         <input
           type="checkbox"
           className="item_checkbox"
-          onChange={(e) => {
-            handleOnchange(e);
+          onChange={(event) => {
+            handleOnchange(event);
           }}
           checked={value}
         />
