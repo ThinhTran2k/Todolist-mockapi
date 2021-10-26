@@ -1,12 +1,11 @@
-import * as actionTypes from "../actions/actionTypes";
 import { Itasks, Itask } from "../../types/index";
-import { filterTypes } from "../actions/actionTypes";
+import { actionTypes, filterTypes } from "../actions/actionTypes";
 import { TaskAction } from "../../types/index";
 
 const initialState: Itasks = {
   tasks: [],
   fitlerType: filterTypes.All,
-  toggle: false,
+  formToggle: false,
 };
 
 const Tasks = (state: Itasks = initialState, action: TaskAction): Itasks => {
@@ -71,7 +70,7 @@ const Tasks = (state: Itasks = initialState, action: TaskAction): Itasks => {
     case actionTypes.TOGGLE_FORM:
       return {
         ...state,
-        toggle: !state.toggle,
+        formToggle: !state.formToggle,
       };
 
     case actionTypes.CHANGE_FILTER:

@@ -4,21 +4,21 @@ import { useDispatch } from "react-redux";
 import { filterTasks } from "../../redux/actions";
 import { typeFilter } from "../../constants";
 
-function ControlField() {
+function FilterItem() {
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState<string>("");
+  const [filterValue, setFilterValue] = React.useState<string>("");
   React.useEffect(() => {
-    dispatch(filterTasks(value));
-  }, [value, dispatch]);
+    dispatch(filterTasks(filterValue));
+  }, [filterValue, dispatch]);
 
   return (
     <div className="container_filter">
       <span className="filter_title">Filter</span>
       <select
         className="filter_option"
-        value={value}
+        value={filterValue}
         onChange={(e) => {
-          setValue(e.target.value);
+          setFilterValue(e.target.value);
         }}
       >
         {typeFilter.map((item: string) => {
@@ -28,4 +28,4 @@ function ControlField() {
     </div>
   );
 }
-export default React.memo(ControlField);
+export default React.memo(FilterItem);

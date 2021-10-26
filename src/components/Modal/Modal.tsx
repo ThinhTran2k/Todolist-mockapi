@@ -4,7 +4,7 @@ import todoApi from "../../services/api/todoAPI";
 import { FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addTask, setToggle, updateTasks } from "../../redux/actions";
-import { toastError, toastSuccess } from "../../helper/toastHelper";
+import { toast } from "react-toastify";
 
 type Props = {
   id: number;
@@ -19,24 +19,21 @@ function ModalEdit(props: Props) {
     statusTodo: false,
     deadlinetime: "",
   });
+  const { valueTodo, deadlinetime } = value;
 
   React.useEffect(() => {
     if (id !== 0 && id) {
-      getTaskByID();
+      todoApi.getTaskByID(id).then((res: any) => {
+        setValue({
+          ...value,
+          valueTodo: res.data.value,
+          statusTodo: res.data.status,
+          deadlinetime: res.data.deadlinetime,
+        });
+      });
     }
   }, [id]);
 
-  const getTaskByID = async () => {
-    try {
-      const res: any = await todoApi.getTaskByID(id);
-      setValue({
-        ...value,
-        valueTodo: res.data.value,
-        statusTodo: res.data.status,
-        deadlinetime: res.data.deadlinetime,
-      });
-    } catch (error) {}
-  };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({
       ...value,
@@ -45,40 +42,55 @@ function ModalEdit(props: Props) {
   };
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (value.valueTodo.length === 0 || !value) {
-      toastError("Enter your todo !!!");
+    if (!valueTodo) {
+      toast.error("Enter your todo !!!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (!deadlinetime) {
+      toast.error("Select deadlinetime, please!!!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
     } else {
       if (id) {
         try {
-          const res: any = await todoApi.updateTask(id, {
+          await todoApi.updateTask(id, {
             value: value.valueTodo,
             status: value.statusTodo,
             deadlinetime: value.deadlinetime,
           });
           dispatch(
             updateTasks({
-              id: res.data.id,
+              id: id,
               value: value.valueTodo,
               status: value.statusTodo,
               deadlinetime: value.deadlinetime,
             })
           );
           clearIDEdit();
-          toastSuccess("Update success !!!");
+          toast.success("Update success !!!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+          dispatch(setToggle());
         } catch (error) {
           clearIDEdit();
-          toastError("Update failed !!!");
+          toast.error("Update failed !!!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
           dispatch(setToggle());
         }
       } else {
         try {
-          const res: any = await todoApi.addTask({
+          await todoApi.addTask({
             value: value.valueTodo.trim(),
             deadlinetime: value.deadlinetime,
           });
           dispatch(
             addTask({
-              id: res.data.id,
+              id: id,
               value: value.valueTodo,
               status: value.statusTodo,
               deadlinetime: value.deadlinetime,
@@ -90,15 +102,21 @@ function ModalEdit(props: Props) {
             deadlinetime: "",
           });
           clearIDEdit();
-          toastSuccess("Add success !!!");
+          toast.success("Add success !!!", {
+            autoClose: 2000,
+            position: toast.POSITION.TOP_RIGHT,
+          });
+          dispatch(setToggle());
         } catch (error) {
           clearIDEdit();
-          toastError("Update failed !!!");
+          toast.error("Add failed !!!", {
+            autoClose: 2000,
+            position: toast.POSITION.TOP_RIGHT,
+          });
           dispatch(setToggle());
         }
       }
     }
-    dispatch(setToggle());
   };
 
   return (

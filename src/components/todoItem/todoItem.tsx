@@ -6,8 +6,8 @@ import { FaTrashAlt, FaPen } from "react-icons/fa";
 import { Itask } from "../../types";
 import { useDispatch } from "react-redux";
 import { deleteTask, setToggle, updateStatus } from "../../redux/actions";
-import { toastError, toastSuccess } from "../../helper/toastHelper";
 import { onDeadline, onExprise } from "../../helper/timeHelper";
+import { toast } from "react-toastify";
 
 type Props = {
   task: Itask;
@@ -16,9 +16,9 @@ type Props = {
 
 function ItemField(props: Props) {
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState<boolean>(false);
+  const [checkBoxValue, setCheckBoxValue] = React.useState<boolean>(false);
   React.useEffect(() => {
-    setValue(props.task.status);
+    setCheckBoxValue(props.task.status);
   }, [props.task]);
 
   const onDelete = async () => {
@@ -27,11 +27,17 @@ function ItemField(props: Props) {
       if (answer) {
         await todoApi.deleteTask(props.task.id);
         dispatch(deleteTask(props.task.id));
-        toastSuccess("Delete successfully !!!");
+        toast.success("Delete successfully !!!", {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT,
+        });
         return;
       }
     } catch (error) {
-      toastError("Delete failed !!!");
+      toast.error("Delete failed !!!", {
+        autoClose: 2000,
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
@@ -42,12 +48,12 @@ function ItemField(props: Props) {
 
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     editStatus();
-    setValue(e.target.checked);
+    setCheckBoxValue(e.target.checked);
     dispatch(
       updateStatus({
         id: props.task.id,
         value: props.task.value,
-        status: !value,
+        status: !checkBoxValue,
         deadlinetime: props.task.deadlinetime,
       })
     );
@@ -57,11 +63,14 @@ function ItemField(props: Props) {
     try {
       await todoApi.updateTask(props.task.id, {
         value: props.task.value,
-        status: !value,
+        status: !checkBoxValue,
         deadlinetime: props.task.deadlinetime,
       });
     } catch (error) {
-      toastError("Update todo status failed !!!");
+      toast.error("Update todo status failed !!!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
     }
   };
 
@@ -74,7 +83,7 @@ function ItemField(props: Props) {
           onChange={(event) => {
             handleOnchange(event);
           }}
-          checked={value}
+          checked={checkBoxValue}
         />
 
         <div className="wrapper_text">

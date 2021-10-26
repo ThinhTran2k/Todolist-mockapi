@@ -1,1 +1,7 @@
-export const typeFilter = ["All", "Active", "Completed"];
+import { filterTypes } from "../redux/actions/actionTypes";
+
+export const typeFilter = [
+  filterTypes.All,
+  filterTypes.Active,
+  filterTypes.Completed,
+];

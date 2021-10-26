@@ -4,23 +4,26 @@ import { Itask, Itasks } from "../../types";
 import TodoItem from "../todoItem/todoItem";
 import Modal from "../Modal/Modal";
 import "./todoList.scss";
+import { filterTypes } from "../../redux/actions/actionTypes";
 
 function ListField() {
-  const { tasks, toggle, fitlerType } = useSelector((state: Itasks) => state);
-  const [idEdit, setIdEdit] = React.useState<number>(0);
+  const { tasks, formToggle, fitlerType } = useSelector(
+    (state: Itasks) => state
+  );
+  const [todoID, setTodoID] = React.useState<number>(0);
   const getID = (id: number) => {
-    setIdEdit(id);
+    setTodoID(id);
   };
   const clearIDEdit = () => {
-    setIdEdit(0);
+    setTodoID(0);
   };
   const taskFilter = (tasks: Itask[], typeFilter: string) => {
     switch (typeFilter) {
-      case "All":
+      case filterTypes.All:
         return [...tasks];
-      case "Completed":
+      case filterTypes.Completed:
         return [...tasks].filter((item) => item.status);
-      case "Active":
+      case filterTypes.Active:
         return [...tasks].filter((item) => !item.status);
       default:
         return [...tasks];
@@ -38,7 +41,7 @@ function ListField() {
             })}
         </ul>
 
-        {toggle ? <Modal id={idEdit} clearIDEdit={clearIDEdit} /> : null}
+        {formToggle ? <Modal id={todoID} clearIDEdit={clearIDEdit} /> : null}
       </div>
       <div className="count_item">
         Count: {taskFilter(tasks, fitlerType).length}

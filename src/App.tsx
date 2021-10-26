@@ -5,24 +5,26 @@ import todoAPI from "./services/api/todoAPI";
 import AddInput from "./components/addInput/addInput";
 import FilterItem from "./components/filterItem/filterItem";
 import TodoList from "./components/todoList/todoList";
-import { toastError } from "./helper/toastHelper";
 import { getTasks } from "./redux/actions/index";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { Itask } from "./types";
 
 function App() {
   const dispatch = useDispatch();
+
   React.useEffect(() => {
-    getListTask();
+    todoAPI
+      .getListTask()
+      .then((res) => {
+        dispatch(getTasks(res.data as Itask[]));
+      })
+      .catch((err) => {
+        toast.error("Get list failed", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   }, []);
-  const getListTask = async () => {
-    try {
-      const res: any = await todoAPI.getListTask();
-      dispatch(getTasks(res.data));
-    } catch (error) {
-      toastError(error);
-    }
-  };
 
   return (
     <div className="container">

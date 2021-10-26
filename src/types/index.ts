@@ -7,7 +7,7 @@ export type Itask = {
 export type Itasks = {
   tasks: Itask[];
   fitlerType: string;
-  toggle: boolean;
+  formToggle: boolean;
 };
 export type Itoggle = {
   toggle: boolean;

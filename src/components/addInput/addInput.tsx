@@ -1,8 +1,9 @@
+import React from "react";
 import "./addInput.scss";
 import { useDispatch } from "react-redux";
 import { setToggle } from "../../redux/actions/index";
 
-export default function InputField() {
+function InputField() {
   const dispatch = useDispatch();
 
   return (
@@ -21,3 +22,4 @@ export default function InputField() {
     </div>
   );
 }
+export default React.memo(InputField);
