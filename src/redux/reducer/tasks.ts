@@ -1,10 +1,10 @@
 import { Itasks, Itask } from "../../types/index";
-import { actionTypes, filterTypes } from "../actions/actionTypes";
+import { actionTypes, EFilterTypes } from "../actions/actionTypes";
 import { TaskAction } from "../../types/index";
 
 const initialState: Itasks = {
   tasks: [],
-  fitlerType: filterTypes.All,
+  fitlerType: EFilterTypes.All,
   formToggle: false,
 };
 
@@ -25,16 +25,16 @@ const Tasks = (state: Itasks = initialState, action: TaskAction): Itasks => {
       };
 
     case actionTypes.UPDATE_TODO:
-      const { id, value, status, deadlinetime } = action.payload as {
+      const { id, value, isCompleteTodo, deadlinetime } = action.payload as {
         id: number;
         value: string;
-        status: boolean;
+        isCompleteTodo: boolean;
         deadlinetime: string;
       };
       const newTaskEdit = {
         id: id,
         value: value,
-        status: status,
+        isCompleteTodo: isCompleteTodo,
         deadlinetime: deadlinetime,
       };
       const findTask = state.tasks.findIndex((item) => item.id === id);
@@ -45,14 +45,14 @@ const Tasks = (state: Itasks = initialState, action: TaskAction): Itasks => {
       const payload = action.payload as {
         id: number;
         value: string;
-        status: boolean;
+        isCompleteTodo: boolean;
       };
       const findStatus = state.tasks.findIndex(
         (item) => item.id === payload.id
       );
       state.tasks[findStatus] = {
         ...state.tasks[findStatus],
-        status: payload.status,
+        isCompleteTodo: payload.isCompleteTodo,
       };
       return { ...state };
 
@@ -61,7 +61,7 @@ const Tasks = (state: Itasks = initialState, action: TaskAction): Itasks => {
         action.payload as {
           id: number;
           value: string;
-          status: boolean;
+          isCompleteTodo: boolean;
           deadlinetime: string;
         }
       );

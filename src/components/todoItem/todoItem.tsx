@@ -11,14 +11,14 @@ import { toast } from "react-toastify";
 
 type Props = {
   task: Itask;
-  getID: Function;
+  getTodo: Function;
 };
 
 function ItemField(props: Props) {
   const dispatch = useDispatch();
   const [checkBoxValue, setCheckBoxValue] = React.useState<boolean>(false);
   React.useEffect(() => {
-    setCheckBoxValue(props.task.status);
+    setCheckBoxValue(props.task.isCompleteTodo);
   }, [props.task]);
 
   const onDelete = async () => {
@@ -43,17 +43,17 @@ function ItemField(props: Props) {
 
   const onOpenFormEdit = () => {
     dispatch(setToggle());
-    props.getID(props.task.id);
+    props.getTodo(props.task);
   };
 
-  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    editStatus();
+  const handleOnchange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await editStatus();
     setCheckBoxValue(e.target.checked);
     dispatch(
       updateStatus({
         id: props.task.id,
         value: props.task.value,
-        status: !checkBoxValue,
+        isCompleteTodo: !checkBoxValue,
         deadlinetime: props.task.deadlinetime,
       })
     );
@@ -63,7 +63,7 @@ function ItemField(props: Props) {
     try {
       await todoApi.updateTask(props.task.id, {
         value: props.task.value,
-        status: !checkBoxValue,
+        isCompleteTodo: !checkBoxValue,
         deadlinetime: props.task.deadlinetime,
       });
     } catch (error) {
@@ -91,12 +91,12 @@ function ItemField(props: Props) {
         </div>
         <div className="wrapper_deadline">
           <p>{moment(props.task.deadlinetime).format("LLLL")}</p>
-          {onDeadline(props.task.deadlinetime, props.task.status) ? (
+          {onDeadline(props.task.deadlinetime, props.task.isCompleteTodo) ? (
             <span className="warning_deadline">
               Warning time is running out{" "}
             </span>
           ) : null}
-          {onExprise(props.task.deadlinetime, props.task.status) ? (
+          {onExprise(props.task.deadlinetime, props.task.isCompleteTodo) ? (
             <span className="error_deadline">The Task has expired</span>
           ) : null}
         </div>

@@ -5,14 +5,15 @@ import { FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addTask, setToggle, updateTasks } from "../../redux/actions";
 import { toast } from "react-toastify";
+import { Itask } from "../../types";
 
 type Props = {
-  id: number;
+  todoEdit: Itask;
   clearIDEdit: () => void;
 };
 
 function ModalEdit(props: Props) {
-  const { id, clearIDEdit } = props;
+  const { todoEdit, clearIDEdit } = props;
   const dispatch = useDispatch();
   const [value, setValue] = React.useState({
     valueTodo: "",
@@ -22,17 +23,15 @@ function ModalEdit(props: Props) {
   const { valueTodo, deadlinetime } = value;
 
   React.useEffect(() => {
-    if (id !== 0 && id) {
-      todoApi.getTaskByID(id).then((res: any) => {
-        setValue({
-          ...value,
-          valueTodo: res.data.value,
-          statusTodo: res.data.status,
-          deadlinetime: res.data.deadlinetime,
-        });
+    if (todoEdit) {
+      setValue({
+        ...value,
+        valueTodo: todoEdit.value,
+        statusTodo: todoEdit.isCompleteTodo,
+        deadlinetime: todoEdit.deadlinetime,
       });
     }
-  }, [id]);
+  }, [todoEdit]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({
@@ -53,18 +52,19 @@ function ModalEdit(props: Props) {
         autoClose: 2000,
       });
     } else {
-      if (id) {
+      if (todoEdit.id) {
         try {
-          await todoApi.updateTask(id, {
+          await todoApi.updateTask(todoEdit.id, {
             value: value.valueTodo,
-            status: value.statusTodo,
+            isCompleteTodo: value.statusTodo,
             deadlinetime: value.deadlinetime,
           });
+          console.log("value", value);
           dispatch(
             updateTasks({
-              id: id,
+              id: todoEdit.id,
               value: value.valueTodo,
-              status: value.statusTodo,
+              isCompleteTodo: value.statusTodo,
               deadlinetime: value.deadlinetime,
             })
           );
@@ -90,9 +90,9 @@ function ModalEdit(props: Props) {
           });
           dispatch(
             addTask({
-              id: id,
+              id: todoEdit.id,
               value: value.valueTodo,
-              status: value.statusTodo,
+              isCompleteTodo: value.statusTodo,
               deadlinetime: value.deadlinetime,
             })
           );
@@ -123,7 +123,7 @@ function ModalEdit(props: Props) {
     <div className="container_modal">
       <div className="background" onClick={() => dispatch(setToggle())}></div>
       <div className="wrapper_modal">
-        <h1>{id ? "Edit Todo" : "Add Todo"}</h1>
+        <h1>{todoEdit ? "Edit Todo" : "Add Todo"}</h1>
         <div className="modal_closeICon">
           <FaTimesCircle
             className="closeIcon"

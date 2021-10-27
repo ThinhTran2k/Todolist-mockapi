@@ -4,27 +4,37 @@ import { Itask, Itasks } from "../../types";
 import TodoItem from "../todoItem/todoItem";
 import Modal from "../Modal/Modal";
 import "./todoList.scss";
-import { filterTypes } from "../../redux/actions/actionTypes";
+import { EFilterTypes } from "../../redux/actions/actionTypes";
 
 function ListField() {
   const { tasks, formToggle, fitlerType } = useSelector(
     (state: Itasks) => state
   );
-  const [todoID, setTodoID] = React.useState<number>(0);
-  const getID = (id: number) => {
-    setTodoID(id);
+  const [todoEdit, setTodoEdit] = React.useState<Itask>({
+    id: 0,
+    value: "",
+    isCompleteTodo: false,
+    deadlinetime: "",
+  });
+  const getTodo = (id: Itask) => {
+    setTodoEdit(id);
   };
   const clearIDEdit = () => {
-    setTodoID(0);
+    setTodoEdit({
+      id: 0,
+      value: "",
+      isCompleteTodo: false,
+      deadlinetime: "",
+    });
   };
   const taskFilter = (tasks: Itask[], typeFilter: string) => {
     switch (typeFilter) {
-      case filterTypes.All:
+      case EFilterTypes.All:
         return [...tasks];
-      case filterTypes.Completed:
-        return [...tasks].filter((item) => item.status);
-      case filterTypes.Active:
-        return [...tasks].filter((item) => !item.status);
+      case EFilterTypes.Completed:
+        return [...tasks].filter((item) => item.isCompleteTodo);
+      case EFilterTypes.Active:
+        return [...tasks].filter((item) => !item.isCompleteTodo);
       default:
         return [...tasks];
     }
@@ -37,11 +47,13 @@ function ListField() {
           {taskFilter(tasks, fitlerType)
             .reverse()
             .map((task: Itask) => {
-              return <TodoItem key={task.id} task={task} getID={getID} />;
+              return <TodoItem key={task.id} task={task} getTodo={getTodo} />;
             })}
         </ul>
 
-        {formToggle ? <Modal id={todoID} clearIDEdit={clearIDEdit} /> : null}
+        {formToggle ? (
+          <Modal todoEdit={todoEdit} clearIDEdit={clearIDEdit} />
+        ) : null}
       </div>
       <div className="count_item">
         Count: {taskFilter(tasks, fitlerType).length}

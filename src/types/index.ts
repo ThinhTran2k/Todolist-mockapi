@@ -1,7 +1,7 @@
 export type Itask = {
   id: number;
   value: string;
-  status: boolean;
+  isCompleteTodo: boolean;
   deadlinetime: string;
 };
 export type Itasks = {
@@ -32,7 +32,15 @@ export type IToggleForm = {
   type: string;
   payload: boolean;
 };
-
+export type IAddTodo = {
+  value: string;
+  deadlinetime: string;
+};
+export type IUpdateTodo = {
+  value: string;
+  isCompleteTodo: boolean;
+  deadlinetime: string;
+};
 export type TaskAction =
   | IGetTaskAction
   | IAddTaskAction

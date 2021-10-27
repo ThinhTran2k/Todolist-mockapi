@@ -1,14 +1,5 @@
+import { IAddTodo, IUpdateTodo } from "./../../types/index";
 import axiosClient from "../axiosClient";
-
-type IAddTodo = {
-  value: string;
-  deadlinetime: string;
-};
-type IUpdateTodo = {
-  value: string;
-  status: boolean;
-  deadlinetime: string;
-};
 
 const todoApi = {
   getListTask() {

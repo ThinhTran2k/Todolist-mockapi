@@ -14,16 +14,17 @@ function App() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    todoAPI
-      .getListTask()
-      .then((res) => {
+    const getListTodo = async () => {
+      try {
+        const res = await todoAPI.getListTask();
         dispatch(getTasks(res.data as Itask[]));
-      })
-      .catch((err) => {
+      } catch (error) {
         toast.error("Get list failed", {
           position: toast.POSITION.TOP_RIGHT,
         });
-      });
+      }
+    };
+    getListTodo();
   }, []);
 
   return (

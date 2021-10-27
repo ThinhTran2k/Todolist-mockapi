@@ -1,5 +1,5 @@
 import { Itask } from "../../types/index";
-import * as actionTypes from "./actionTypes";
+import { actionTypes } from "./actionTypes";
 
 export const getTasks = (tasks: Itask[]) => {
   return {

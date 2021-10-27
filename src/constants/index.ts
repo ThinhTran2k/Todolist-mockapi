@@ -1,7 +1,7 @@
-import { filterTypes } from "../redux/actions/actionTypes";
+import { EFilterTypes } from "../redux/actions/actionTypes";
 
 export const typeFilter = [
-  filterTypes.All,
-  filterTypes.Active,
-  filterTypes.Completed,
+  EFilterTypes.All,
+  EFilterTypes.Active,
+  EFilterTypes.Completed,
 ];
