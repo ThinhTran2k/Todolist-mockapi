@@ -59,7 +59,6 @@ function ModalEdit(props: Props) {
             isCompleteTodo: value.statusTodo,
             deadlinetime: value.deadlinetime,
           });
-          console.log("value", value);
           dispatch(
             updateTasks({
               id: todoEdit.id,
