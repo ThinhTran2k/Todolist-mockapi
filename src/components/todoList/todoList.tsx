@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Itask, Itasks } from "../../types";
 import TodoItem from "../todoItem/todoItem";
-import Modal from "../Modal/Modal";
+import TodoForm from "../TodoForm/TodoForm";
 import "./todoList.scss";
 import { EFilterTypes } from "../../redux/actions/actionTypes";
 
@@ -52,7 +52,7 @@ function ListField() {
         </ul>
 
         {formToggle ? (
-          <Modal todoEdit={todoEdit} clearIDEdit={clearIDEdit} />
+          <TodoForm todoEdit={todoEdit} clearIDEdit={clearIDEdit} />
         ) : null}
       </div>
       <div className="count_item">

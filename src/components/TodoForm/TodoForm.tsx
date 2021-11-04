@@ -12,7 +12,7 @@ type Props = {
   clearIDEdit: () => void;
 };
 
-function ModalEdit(props: Props) {
+function TodoForm(props: Props) {
   const { todoEdit, clearIDEdit } = props;
   const dispatch = useDispatch();
   const [value, setValue] = React.useState({
@@ -174,4 +174,4 @@ function ModalEdit(props: Props) {
     </div>
   );
 }
-export default React.memo(ModalEdit);
+export default React.memo(TodoForm);
