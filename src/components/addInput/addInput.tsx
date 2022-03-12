@@ -5,7 +5,7 @@ import { setToggle } from "../../redux/actions/index";
 
 function InputField() {
   const dispatch = useDispatch();
-  console.log("object");
+
   return (
     <div className="container-form">
       <form>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Itask, Itasks } from "../../types";
-import TodoItem from "../todoItem/todoItem";
+import TodoItem from "../TodoItem/todoItem";
 import TodoForm from "../TodoForm/TodoForm";
 import "./todoList.scss";
 import { EFilterTypes } from "../../redux/actions/actionTypes";

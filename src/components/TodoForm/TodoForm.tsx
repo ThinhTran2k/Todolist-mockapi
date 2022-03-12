@@ -1,5 +1,5 @@
 import React from "react";
-import "./Modal.scss";
+import "./TodoForm.scss";
 import todoApi from "../../services/api/todoAPI";
 import { FaTimesCircle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -7,13 +7,12 @@ import { addTask, setToggle, updateTasks } from "../../redux/actions";
 import { toast } from "react-toastify";
 import { Itask } from "../../types";
 
-type Props = {
+type TodoFormProps = {
   todoEdit: Itask;
   clearIDEdit: () => void;
 };
 
-function TodoForm(props: Props) {
-  const { todoEdit, clearIDEdit } = props;
+function TodoForm({ todoEdit, clearIDEdit }: TodoFormProps) {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState({
     valueTodo: "",
@@ -150,7 +149,7 @@ function TodoForm(props: Props) {
             <input
               type="checkbox"
               className="checkbox_edit"
-              onChange={(e) => handleOnChange(e)}
+              onChange={handleOnChange}
               checked={value.statusTodo}
             />
           </div>
